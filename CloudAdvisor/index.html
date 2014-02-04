@@ -102,7 +102,7 @@
     function ImageListUpdate(data){
         imageInfos = data;
         currentPosition = 0;
-        imagesListLength = imageInfos.images.length;
+        imagesListLength = imageInfos.images.length - 1;
 
         UpdateImage(imageInfos.url, imageInfos.images[currentPosition]);
     }
