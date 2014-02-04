@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="cover.css" >
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style id="holderjs-style" type="text/css"></style></head>
+<title>Cloud Advisor</title>
+</head>
+<body style="">
+<div class="site-wrapper">
+
+    <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+            <div class="masthead clearfix">
+                <div class="inner">
+                    <h3 class="masthead-brand">CloudAdvisor</h3>
+                    <ul class="nav masthead-nav">
+                        <li class="active" id="Latest"><a href="#">Latest</a></li>
+                        <li class="dropdown" id="DateList">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dates
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <div id="placeholder"></div>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <button type="button" class="btn btn-default btn-lg" id="Back">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </button>
+            <img src="" id='CropRegion' width="1136" height="640">
+            <button type="button" class="btn btn-default btn-lg" id="Next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
+        </div>
+
+        <div class="cover-container">
+            <div class="mastfoot">
+                <div class="inner">
+                    <p></p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="http://code.jquery.com/jquery-latest.js"> </script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+<script>
+    var imageInfos;
+    var currentPosition = 0;
+    var imagesListLength = 0;
+
+    function Start(data){
+        if (data.image == ""){
+            UpdateImage(data.url, "empty.png");
+        }
+        else{
+            UpdateImage(data.url, data.image);
+        }
+    }
+
+    function UpdateImage(suffix, imageName){
+        if (!document.images)
+            return;
+
+        document.images["CropRegion"].src = "http://162.243.83.186" + suffix + "/" + imageName;
+    }
+
+    function FillDates(data){
+        var output = "";
+
+        for(var i in data.dates){
+            output += "<li><a href=\"#" + data.dates[i] + "\">" + data.dates[i] + "</a></li>";
+        }
+
+        document.getElementById("placeholder").innerHTML=output;
+    }
+
+    function ImageListUpdate(data){
+        imageInfos = data;
+        currentPosition = 0;
+        imagesListLength = imageInfos.images.length;
+
+        UpdateImage(imageInfos.url, imageInfos.images[currentPosition]);
+    }
+
+    function updateNext() {
+        currentPosition++;
+        if(currentPosition > imagesListLength)
+            currentPosition = 0;
+
+        UpdateImage(imageInfos.url, imageInfos.images[currentPosition]);
+    }
+
+    function updateLast() {
+        --currentPosition;
+        if(currentPosition < 0)
+            currentPosition = imagesListLength;
+
+        UpdateImage(imageInfos.url, imageInfos.images[currentPosition]);
+    }
+
+    function GetData (url, callback) {
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            dataType: "json",
+            crossDomain: true,
+            ifModified: true,
+            success: function(data){
+                callback(data);
+            }
+        });
+    }
+
+    GetData("http://162.243.83.186/date/all/", FillDates);
+    GetData("http://162.243.83.186/latest/", Start);
+
+    $(document).ready(function(){
+        $('#DateList ul li').click(function(){
+            date = this.children[0].href.split('#')[1];
+
+            $('#DateList').addClass("active");
+            $('#Latest').removeClass("active");
+            document.getElementById("Back").style.visibility="visible";
+            document.getElementById("Next").style.visibility="visible";
+
+            GetData("http://162.243.83.186/date/" + date + "/" , ImageListUpdate);
+        });
+
+        $('#Latest').click(function(){
+
+            $('#DateList').removeClass("active");
+            $('#Latest').addClass("active");
+
+            document.getElementById("Back").style.visibility="hidden";
+            document.getElementById("Next").style.visibility="hidden";
+
+            GetData("http://162.243.83.186/latest/", Start);
+        });
+
+        $("button:first").click(function () {
+            updateLast();
+        });
+
+        $("button:last").click(function () {
+
+            updateNext();
+        });
+    });
+</script>
+</body>
+</html>
