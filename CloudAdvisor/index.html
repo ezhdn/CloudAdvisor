@@ -26,14 +26,14 @@
 
             <div class="masthead clearfix">
                 <div class="inner">
-                    <h3 class="masthead-brand">CloudAdvisor</h3>
+                    <h3 class="masthead-brand">MeteoSochi</h3>
                     <ul class="nav masthead-nav">
                         <li class="active" id="Latest"><a href="#">Latest</a></li>
                         <li class="dropdown" id="DateList">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dates
                                 <span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" >
                                 <div id="placeholder"></div>
                             </ul>
                         </li>
@@ -55,7 +55,9 @@
         <div class="cover-container">
             <div class="mastfoot">
                 <div class="inner">
-                    <p></p>
+                    <p >
+                        Current image - <b id='CurrentImage'></b>
+                    </p>
                 </div>
             </div>
 
@@ -73,6 +75,8 @@
     var currentPosition = 0;
     var imagesListLength = 0;
 
+    var testLink = ""
+
     function Start(data){
         if (data.image == ""){
             UpdateImage(data.url, "empty.png");
@@ -86,14 +90,15 @@
         if (!document.images)
             return;
 
-        document.images["CropRegion"].src = "http://162.243.83.186" + suffix + "/" + imageName;
+        document.getElementById("CurrentImage").innerHTML = imageName.split('.')[0];
+        document.images["CropRegion"].src = testLink + suffix + "/" + imageName;
     }
 
     function FillDates(data){
         var output = "";
 
         for(var i in data.dates){
-            output += "<li><a href=\"#" + data.dates[i] + "\">" + data.dates[i] + "</a></li>";
+            output += "<li><a href=\"#\">" + data.dates[i] + "</a></li>";
         }
 
         document.getElementById("placeholder").innerHTML=output;
@@ -124,32 +129,24 @@
     }
 
     function GetData (url, callback) {
-        $.ajax({
-            type: "GET",
-            url: url,
-            async: false,
-            dataType: "json",
-            crossDomain: true,
-            ifModified: true,
-            success: function(data){
-                callback(data);
-            }
+        $.getJSON(url, function(data){
+            callback(data);
         });
     }
 
-    GetData("http://162.243.83.186/date/all/", FillDates);
-    GetData("http://162.243.83.186/latest/", Start);
+    GetData(testLink + "/date/all/", FillDates);
+    GetData(testLink + "/latest/", Start);
 
     $(document).ready(function(){
-        $('#DateList ul li').click(function(){
-            date = this.children[0].href.split('#')[1];
+        $('#DateList ul').click(function(e){
+            date = e.target.text;
 
             $('#DateList').addClass("active");
             $('#Latest').removeClass("active");
             document.getElementById("Back").style.visibility="visible";
             document.getElementById("Next").style.visibility="visible";
 
-            GetData("http://162.243.83.186/date/" + date + "/" , ImageListUpdate);
+            GetData(testLink + "/date/" + date + "/" , ImageListUpdate);
         });
 
         $('#Latest').click(function(){
@@ -160,7 +157,7 @@
             document.getElementById("Back").style.visibility="hidden";
             document.getElementById("Next").style.visibility="hidden";
 
-            GetData("http://162.243.83.186/latest/", Start);
+            GetData(testLink+ "/latest/", Start);
         });
 
         $("button:first").click(function () {
@@ -173,5 +170,22 @@
         });
     });
 </script>
+
+<script type="text/javascript">
+
+    var googleAnalyticsKey = "";
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', googleAnalyticsKey]);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+
 </body>
 </html>

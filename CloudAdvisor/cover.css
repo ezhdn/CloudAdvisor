@@ -4,9 +4,11 @@
 
 /* Links */
 a,
-a:focus,
+a:focus{
+    color: #000;
+}
 a:hover {
-    color: #fff;
+    color: #555;
 }
 
 /* Custom default button */
@@ -16,7 +18,7 @@ a:hover {
     color: #333;
     text-shadow: none; /* Prevent inheritence from `body` */
     background-color: #fff;
-    border: 1px solid #fff;
+    border: 1px solid #eee;
 }
 
 
