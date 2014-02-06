@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="cover.css" >
-
+<html lang="en"><head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MeteoSochi</title>
+
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -14,27 +15,32 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <style id="holderjs-style" type="text/css"></style></head>
-<title>MeteoSochi</title>
+    <link href="carousel.css" rel="stylesheet">
+    <style id="holderjs-style" type="text/css"></style>
 </head>
+
+
 <body style="">
-<div class="site-wrapper">
+<div class="navbar-wrapper">
+    <div class="container">
 
-    <div class="site-wrapper-inner">
-
-        <div class="cover-container">
-
-            <div class="masthead clearfix">
-                <div class="inner">
-                    <h3 class="masthead-brand">MeteoSochi</h3>
-                    <ul class="nav masthead-nav">
+        <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#" id="Start">MeteoSochi</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
                         <li class="active" id="Latest"><a href="#">Последний за день</a></li>
                         <li class="dropdown" id="DateList">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Даты
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" >
-                                <div id="placeholder"></div>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Даты <b class="caret"></b></a>
+                            <ul class="dropdown-menu" id="placeholder">
                             </ul>
                         </li>
                     </ul>
@@ -42,56 +48,60 @@
             </div>
         </div>
 
-        <div class="row">
-            <button type="button" class="btn btn-default btn-lg" id="Back" style="visibility: hidden">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-            </button>
-            <img src="" id='CropRegion' width="1136" height="640">
-            <button type="button" class="btn btn-default btn-lg" id="Next" style="visibility: hidden">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-            </button>
-        </div>
-
-        <div class="cover-container">
-            <div class="mastfoot">
-                <div class="inner">
-                    <p >
-                        Текущий снимок - <b id='CurrentImage'></b>
-                    </p>
-                </div>
-            </div>
-
-        </div>
-
     </div>
-
 </div>
 
-<script src="http://code.jquery.com/jquery-latest.js"> </script>
+<div id="myCarousel" class="carousel">
+    <ol class="carousel-indicators" id="Indicators"></ol>
+
+    <div class="carousel-inner" id="ImageRegion"></div>
+
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+</div>
+
+<div class="container marketing">
+    <footer>
+
+    </footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="docs.min.js"></script>
 
 <script>
-    var imageInfos;
-    var currentPosition = 0;
-    var imagesListLength = 0;
-
     var testLink = ""
 
     function Start(data){
+        var output = "";
+        var outputIndicators = "";
+
         if (data.image == ""){
-            UpdateImage(data.url, "empty.png");
+            output += UpdateImage(data.url, "empty.png", true);
         }
         else{
-            UpdateImage(data.url, data.image);
+            output += UpdateImage(data.url, data.image, true);
         }
+
+        outputIndicators += "<li data-target=\"#myCarousel\" data-slide-to=\"0\" class=\"Active\"></li>"
+
+        document.getElementById("ImageRegion").innerHTML=output;
+        document.getElementById("Indicators").innerHTML=outputIndicators;
     }
 
-    function UpdateImage(suffix, imageName){
-        if (!document.images)
-            return;
+    function UpdateImage(suffix, imageName, isActive){
+        var output = "";
+        output += "<div class=\"item"
 
-        document.getElementById("CurrentImage").innerHTML = imageName.split('.')[0];
-        document.images["CropRegion"].src = testLink + suffix + "/" + imageName;
+        if (isActive)
+            output +=" active";
+
+        output += "\"> <div class=\"container\"><div class=\"carousel-caption\">";
+        output += "<img src=\""+ testLink + suffix + "/" + imageName +"\" width=\"1136\" height=\"640\">";
+        output += "</div></div></div>"
+
+        return output;
     }
 
     function FillDates(data){
@@ -105,27 +115,22 @@
     }
 
     function ImageListUpdate(data){
-        imageInfos = data;
-        currentPosition = 0;
-        imagesListLength = imageInfos.images.length - 1;
+        var outputItems = "";
+        var outputIndicators = "";
 
-        UpdateImage(imageInfos.url, imageInfos.images[currentPosition]);
-    }
+        for(var i in data.images){
+            if (i == 0){
+                outputItems += UpdateImage(data.url, data.images[i], true);
+                outputIndicators += "<li data-target=\"#myCarousel\" data-slide-to=\"" + i + "\" class=\"active\"></li>";
+            }
+            else{
+                outputItems += UpdateImage(data.url, data.images[i], false);
+                outputIndicators += "<li data-target=\"#myCarousel\" data-slide-to=\"" + i + "\" class=\"\"></li>";
+            }
+        }
 
-    function updateNext() {
-        currentPosition++;
-        if(currentPosition > imagesListLength)
-            currentPosition = 0;
-
-        UpdateImage(imageInfos.url, imageInfos.images[currentPosition]);
-    }
-
-    function updateLast() {
-        --currentPosition;
-        if(currentPosition < 0)
-            currentPosition = imagesListLength;
-
-        UpdateImage(imageInfos.url, imageInfos.images[currentPosition]);
+        document.getElementById("ImageRegion").innerHTML=outputItems;
+        document.getElementById("Indicators").innerHTML=outputIndicators;
     }
 
     function GetData (url, callback) {
@@ -143,8 +148,6 @@
 
             $('#DateList').addClass("active");
             $('#Latest').removeClass("active");
-            document.getElementById("Back").style.visibility="visible";
-            document.getElementById("Next").style.visibility="visible";
 
             GetData(testLink + "/date/" + date + "/" , ImageListUpdate);
         });
@@ -154,25 +157,20 @@
             $('#DateList').removeClass("active");
             $('#Latest').addClass("active");
 
-            document.getElementById("Back").style.visibility="hidden";
-            document.getElementById("Next").style.visibility="hidden";
-
             GetData(testLink+ "/latest/", Start);
         });
 
-        $("button:first").click(function () {
-            updateLast();
-        });
+        $('#Start').click(function(){
 
-        $("button:last").click(function () {
+            $('#DateList').removeClass("active");
+            $('#Latest').addClass("active");
 
-            updateNext();
+            GetData(testLink+ "/latest/", Start);
         });
     });
 </script>
 
 <script type="text/javascript">
-
     var googleAnalyticsKey = "";
 
     var _gaq = _gaq || [];
@@ -184,8 +182,6 @@
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-
 </script>
 
-</body>
-</html>
+</body></html>
