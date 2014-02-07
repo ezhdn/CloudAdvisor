@@ -71,7 +71,7 @@
 <script src="docs.min.js"></script>
 
 <script>
-    var testLink = ""
+    var testLink = "http://meteosochi.com"
 
     function Start(data){
         var output = "";
@@ -117,7 +117,7 @@
     function FillDates(data){
         var output = "";
 
-        for(var i in data.dates){
+        for(var i in data.dates.reverse()){
             output += "<li><a href=\"#\">" + data.dates[i] + "</a></li>";
         }
 
