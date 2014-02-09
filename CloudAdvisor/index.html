@@ -20,10 +20,9 @@
 </head>
 
 
-<body style="">
+<body>
 <div class="navbar-wrapper">
     <div class="container">
-
         <div class="navbar navbar-inverse navbar-static-top" role="navigation">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#" id="Start">МетеоСочи</a>
@@ -43,21 +42,22 @@
 				<p class="navbar-text">3 фервраля 12:30</p>
 			</div>
         </div>
-
     </div>
 </div>
 
-
 <div id="myCarousel" class="carousel">
-	<div class="carousel-inner" id="ImageRegion"></div>
+    <div class="carousel-inner" id="ImageRegion"></div>
 </div>
 
-<div class="btn-group btn-group-centred">
-  <ol class="carousel-indicators" id="Indicators"></ol>
-  <button type="button" class="btn btn-default">Left</button>
-  <button type="button" class="btn btn-default">Play</button>
-  <button type="button" class="btn btn-default">Right</button>
+<ol class="carousel-indicators" id="Indicators"></ol>
+
+<div class="btn-group btn-group-centered">
+    <button type="button" class="btn btn-default" id="prevButton"><span class="glyphicon glyphicon-chevron-left" /></button>
+    <button type="button" class="btn btn-default" id="playButton"><span class="glyphicon glyphicon-play" id="playButtonText" /></button>
+    <button type="button" class="btn btn-default" id="nextButton"><span class="glyphicon glyphicon-chevron-right" /></button>
 </div>
+
+
 
 <!--<div class="container marketing">
     <footer>
@@ -70,6 +70,33 @@
 <script src="docs.min.js"></script>
 
 <script>
+    $('#prevButton').click(function () {
+        $('.carousel').carousel('pause');
+        if($('#playButtonText').hasClass('glyphicon-pause'))
+            $('#playButtonText').toggleClass('glyphicon-pause glyphicon-play');
+
+        $('.carousel').carousel('prev');
+    });
+    $('#playButton').click(function () {
+        if($('#playButtonText').hasClass('glyphicon-play'))
+        {
+            $('.carousel').carousel({ interval:500 });
+            $('#playButtonText').toggleClass('glyphicon-play glyphicon-pause');
+        }
+        else
+        {
+            $('.carousel').carousel('pause');
+            $('#playButtonText').toggleClass('glyphicon-pause glyphicon-play');
+        }
+    });
+    $('#nextButton').click(function () {
+        $('.carousel').carousel('pause');
+        if($('#playButtonText').hasClass('glyphicon-pause'))
+            $('#playButtonText').toggleClass('glyphicon-pause glyphicon-play');
+
+        $('.carousel').carousel('next')
+    });
+
     var testLink = "http://meteosochi.com"
 
     function Start(data){
@@ -109,7 +136,6 @@
 
 
         return output;
-
     }
 
     function FillDates(data){
