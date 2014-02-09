@@ -25,46 +25,45 @@
     <div class="container">
 
         <div class="navbar navbar-inverse navbar-static-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#" id="Start">МетеоСочи</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active" id="Latest"><a href="#">Последний снимок</a></li>
-                        <li class="dropdown" id="DateList">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Даты <b class="caret"></b></a>
-                            <ul class="dropdown-menu" id="placeholder">
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#" id="Start">МетеоСочи</a>
+			</div>
+
+			<div class="navbar-text">
+				<a href="#" id="Latest" class="navbar-link">За сегодня</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="dropdown" id="DateList">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">За другой день <b class="caret"></b></a>
+					<ul class="dropdown-menu" id="placeholder">
+					</ul>
+				</li>
+			</ul> 
+			<div class="navbar-header pull-right">
+				<p class="navbar-text">3 фервраля 12:30</p>
+			</div>
         </div>
 
     </div>
 </div>
 
+
 <div id="myCarousel" class="carousel">
-    <ol class="carousel-indicators" id="Indicators"></ol>
-
-    <div class="carousel-inner" id="ImageRegion"></div>
-
-    <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
-    <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+	<div class="carousel-inner" id="ImageRegion"></div>
 </div>
 
-<div class="container marketing">
+<div class="btn-group btn-group-centred">
+  <ol class="carousel-indicators" id="Indicators"></ol>
+  <button type="button" class="btn btn-default">Left</button>
+  <button type="button" class="btn btn-default">Play</button>
+  <button type="button" class="btn btn-default">Right</button>
+</div>
+
+<!--<div class="container marketing">
     <footer>
 
     </footer>
-</div>
+</div>-->
 
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
@@ -97,14 +96,13 @@
         output += "<div class=\"item"
 
         if (isActive)
-
             output +=" active";
 
 
         output += "\"> <div class=\"container\"><div class=\"carousel-caption\">";
         output += "<img src=\""+ testLink + suffix + "/" + imageName +"\" width=\"1136\" height=\"640\" class=\"center-block img-responsive\" >";
 
-        output += "<p> Снимок за " + imageName.split('.')[0] + " </p>"
+        //output += "<p> Снимок за " + imageName.split('.')[0] + " </p>"
 
         output += "</div></div></div>"
 
@@ -180,6 +178,7 @@
     });
 </script>
 
+<!--
 <script type="text/javascript">
     var googleAnalyticsKey = "UA-47817014-1";
 
@@ -193,6 +192,8 @@
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
 </script>
+
+-->
 
 </body>
 </html>
