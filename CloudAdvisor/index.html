@@ -39,7 +39,7 @@
 				</li>
 			</ul> 
 			<div class="navbar-header pull-right">
-				<p class="navbar-text">3 фервраля 12:30</p>
+				<p class="navbar-text" id="currentDate"></p>
 			</div>
         </div>
     </div>
@@ -57,8 +57,6 @@
     <button type="button" class="btn btn-default" id="nextButton"><span class="glyphicon glyphicon-chevron-right" /></button>
 </div>
 
-
-
 <!--<div class="container marketing">
     <footer>
 
@@ -70,32 +68,49 @@
 <script src="docs.min.js"></script>
 
 <script>
-    $('#prevButton').click(function () {
-        $('.carousel').carousel('pause');
-        if($('#playButtonText').hasClass('glyphicon-pause'))
-            $('#playButtonText').toggleClass('glyphicon-pause glyphicon-play');
+	function getDateTime(strDateTime)
+	{
+		return getDate(strDateTime) + ' ' + strDateTime.substr(11, 2)+ ':' + strDateTime.substr(14, 2);
+	}
+	
+	function getDate(strDateTime)
+	{
+		var dates = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+		return parseInt(strDateTime.substr(8, 2), 10).toString() + ' ' + dates[parseInt(strDateTime.substr(5, 2), 10) - 1];
+	}
 
-        $('.carousel').carousel('prev');
-    });
-    $('#playButton').click(function () {
-        if($('#playButtonText').hasClass('glyphicon-play'))
-        {
-            $('.carousel').carousel({ interval:500 });
-            $('#playButtonText').toggleClass('glyphicon-play glyphicon-pause');
-        }
-        else
-        {
-            $('.carousel').carousel('pause');
-            $('#playButtonText').toggleClass('glyphicon-pause glyphicon-play');
-        }
-    });
-    $('#nextButton').click(function () {
-        $('.carousel').carousel('pause');
-        if($('#playButtonText').hasClass('glyphicon-pause'))
-            $('#playButtonText').toggleClass('glyphicon-pause glyphicon-play');
+	$('#prevButton').click(function () {
+		$('.carousel').carousel('pause');
+		if($('#playButtonText').hasClass('glyphicon-pause'))
+			$('#playButtonText').toggleClass('glyphicon-pause glyphicon-play');
 
-        $('.carousel').carousel('next')
-    });
+		$('.carousel').carousel('prev');
+	});
+	$('#playButton').click(function () {
+		if($('#playButtonText').hasClass('glyphicon-play'))
+		{
+			$('.carousel').carousel({ interval:1000, pause:'' });
+			$('#playButtonText').toggleClass('glyphicon-play glyphicon-pause');
+		}
+		else
+		{
+			$('.carousel').carousel('pause');
+			$('#playButtonText').toggleClass('glyphicon-pause glyphicon-play');
+		}
+	});
+	$('#nextButton').click(function () {
+		$('.carousel').carousel('pause');
+		if($('#playButtonText').hasClass('glyphicon-pause'))
+			$('#playButtonText').toggleClass('glyphicon-pause glyphicon-play');
+		
+		$('.carousel').carousel('next')
+	});
+	
+	$('.carousel').on('slide.bs.carousel', function (e) {
+		var date = $("#ImageRegion .active img").attr('data-date');
+		$('#currentDate').text(getDateTime(date));
+	});
+
 
     var testLink = "http://meteosochi.com"
 
@@ -114,6 +129,9 @@
 
         document.getElementById("ImageRegion").innerHTML=output;
         document.getElementById("Indicators").innerHTML=outputIndicators;
+		
+		var date = $("#ImageRegion .active img").attr('data-date');
+		$('#currentDate').text(getDateTime(date));
     }
 
     function UpdateImage(suffix, imageName, isActive){
@@ -127,7 +145,8 @@
 
 
         output += "\"> <div class=\"container\"><div class=\"carousel-caption\">";
-        output += "<img src=\""+ testLink + suffix + "/" + imageName +"\" width=\"1136\" height=\"640\" class=\"center-block img-responsive\" >";
+        output += "<img src=\""+ testLink + suffix + "/" + imageName +"\" width=\"1136\" height=\"640\" class=\"center-block img-responsive\" data-date=\""+
+			imageName.substr(0, 16) +"\" >";
 
         //output += "<p> Снимок за " + imageName.split('.')[0] + " </p>"
 
@@ -142,7 +161,7 @@
         var output = "";
 
         for(var i in data.dates.reverse()){
-            output += "<li><a href=\"#\">" + data.dates[i] + "</a></li>";
+            output += "<li><a href=\"#\" data-date=\""+ data.dates[i] +"\">" + getDate(data.dates[i]) + "</a></li>";
         }
 
         document.getElementById("placeholder").innerHTML=output;
@@ -165,6 +184,9 @@
 
         document.getElementById("ImageRegion").innerHTML=outputItems;
         document.getElementById("Indicators").innerHTML=outputIndicators;
+		
+		var date = $("#ImageRegion .active img").attr('data-date');
+		$('#currentDate').text(getDateTime(date));
     }
 
     function GetData (url, callback) {
@@ -178,26 +200,26 @@
 
     $(document).ready(function(){
         $('#DateList ul').click(function(e){
-            date = e.target.text;
+            date = e.target.getAttribute('data-date');
 
-            $('#DateList').addClass("active");
-            $('#Latest').removeClass("active");
+            //$('#DateList').addClass("active");
+            //$('#Latest').removeClass("active");
 
             GetData(testLink + "/date/" + date + "/" , ImageListUpdate);
         });
 
         $('#Latest').click(function(){
 
-            $('#DateList').removeClass("active");
-            $('#Latest').addClass("active");
+            //$('#DateList').removeClass("active");
+            //$('#Latest').addClass("active");
 
             GetData(testLink+ "/latest/", Start);
         });
 
         $('#Start').click(function(){
 
-            $('#DateList').removeClass("active");
-            $('#Latest').addClass("active");
+            //$('#DateList').removeClass("active");
+            //$('#Latest').addClass("active");
 
             GetData(testLink+ "/latest/", Start);
         });
