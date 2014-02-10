@@ -111,6 +111,11 @@ body {
     text-align: center;
 }​
 
+.modal
+{
+	width: 800px;
+}
+
 
 /* RESPONSIVE CSS
 -------------------------------------------------- */
