@@ -25,15 +25,15 @@
     <div class="container">
         <div class="navbar navbar-inverse navbar-static-top" role="navigation">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#" id="Start">МетеоСочи</a>
+				<a class="navbar-brand" role="button" href="#modal" data-toggle="modal" id="Start">МетеоСочи <span class="glyphicon glyphicon-question-sign" /></a>
 			</div>
 
 			<div class="navbar-text">
-				<a href="#" id="Latest" class="navbar-link">За сегодня</a>
+				<a href="#" id="Latest" class="navbar-link">Последний снимок</a>
 			</div>
 			<ul class="nav navbar-nav">
 				<li class="dropdown" id="DateList">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">За другой день <b class="caret"></b></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Снимки по дням<b class="caret"></b></a>
 					<ul class="dropdown-menu" id="placeholder">
 					</ul>
 				</li>
@@ -55,6 +55,22 @@
     <button type="button" class="btn btn-default" id="prevButton"><span class="glyphicon glyphicon-chevron-left" /></button>
     <button type="button" class="btn btn-default" id="playButton"><span class="glyphicon glyphicon-play" id="playButtonText" /></button>
     <button type="button" class="btn btn-default" id="nextButton"><span class="glyphicon glyphicon-chevron-right" /></button>
+</div>
+
+<div id="modal" class="modal" role="dialog">
+    <div class="modal-header">
+	   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2>Электро-Л</h2>
+    </div>
+    <div class="modal-body"	>
+		<p>Перед вами сайт, созданный на основе снимков, российского метеорологического спутника <a href="http://ru.wikipedia.org/wiki/Электро-Л">"Электро-Л"</a>. Сайт является некоммерческим проектом, реализованным группой энтузиастов, при участии <a href="https://vk.com/electrol">сообщества</a> в соцсети Вконтакте "Спутник Электро-Л".<p>
+
+		<p>Обновление спутниковых снимков происходит каждые 30 минут, но из-за технических сложностей задержка в загрузке составляет около 2 часов. Однако это не мешает наблюдению процессов, проходящих в атмосфере.</p>
+
+		<p>Олимпийские игры - важное спортивное событие, и погода может оказывать серьёзное влияние на результат соревнований. О погоде не стоит забывать как спортсменам, так и журналистам, фотографам, зрителям. Поэтому мы решили реализовать он-лайн сервис, который позволит получать оперативную информацию о погодных условиях на побережье Чёрного моря.</p>
+
+		<p>Спутниковые данные доступны благодаря Научному центру оперативного мониторинга Земли. Космический аппарат разработан в НПО им. С.А. Лавочкина, и запущен в 2011 году.</p>
+    </div>
 </div>
 
 <!--<div class="container marketing">
