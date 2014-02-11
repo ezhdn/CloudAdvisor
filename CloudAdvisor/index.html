@@ -24,23 +24,38 @@
 <div class="navbar-wrapper">
     <div class="container">
         <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+
 			<div class="navbar-header">
-				<a class="navbar-brand" role="button" href="#modal" data-toggle="modal" id="Start">МетеоСочи <span class="glyphicon glyphicon-question-sign" /></a>
+				<a class="navbar-brand" href="#" id="Start">МетеоСочи</a>
 			</div>
 
 			<div class="navbar-text">
 				<a href="#" id="Latest" class="navbar-link">Последний снимок</a>
 			</div>
+
 			<ul class="nav navbar-nav">
 				<li class="dropdown" id="DateList">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Снимки по дням<b class="caret"></b></a>
 					<ul class="dropdown-menu" id="placeholder">
 					</ul>
 				</li>
-			</ul> 
-			<div class="navbar-header pull-right">
-				<p class="navbar-text" id="currentDate"></p>
+			</ul>
+
+            <div class="navbar-text">
+                <a role="button" href="#modal" data-toggle="modal" class="navbar-link">Что это такое?</a>
+            </div>
+
+			<div class="navbar-header navbar-right">
+				<p class="navbar-text current-date" id="currentDate"></p>
 			</div>
+
+            <form class="navbar-form navbar-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="prevButton"><span class="glyphicon glyphicon-chevron-left" /></button>
+                    <button type="button" class="btn btn-default" id="playButton"><span class="glyphicon glyphicon-play" id="playButtonText" /></button>
+                    <button type="button" class="btn btn-default" id="nextButton"><span class="glyphicon glyphicon-chevron-right" /></button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -71,12 +86,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="btn-group btn-group-centered">
-    <button type="button" class="btn btn-default" id="prevButton"><span class="glyphicon glyphicon-chevron-left" /></button>
-    <button type="button" class="btn btn-default" id="playButton"><span class="glyphicon glyphicon-play" id="playButtonText" /></button>
-    <button type="button" class="btn btn-default" id="nextButton"><span class="glyphicon glyphicon-chevron-right" /></button>
 </div>
 
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -128,7 +137,7 @@
 	});
 
 
-    var testLink = ""
+    var testLink = "http://meteosochi.com";
 
     function Start(data){
         var output = "";
@@ -230,17 +239,17 @@
             GetData(testLink+ "/latest/", Start);
         });
 
-        /*$('#Start').click(function(){
+        $('#Start').click(function(){
 
             //$('#DateList').removeClass("active");
             //$('#Latest').addClass("active");
 
             GetData(testLink+ "/latest/", Start);
-        });*/
+        });
     });
 </script>
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
     var googleAnalyticsKey = "UA-47817014-1";
 
     var _gaq = _gaq || [];
@@ -252,7 +261,7 @@
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-</script>
+</script>-->
 
 </body>
 </html>

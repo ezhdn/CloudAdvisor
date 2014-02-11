@@ -36,7 +36,6 @@ body {
 
 /* Carousel base class */
 .carousel {
-
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
@@ -115,23 +114,30 @@ body {
     letter-spacing: -1px;
 }
 
-.btn-group-centered {
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
-    width: 100%;
-    text-align: center;
-}
-
 .btn-group>.btn, .btn-group-vertical>.btn {
     position: relative;
     float: inherit;
+}
+
+.navbar-form.navbar-right:last-child {
+    margin-right: auto;
+}
+
+.navbar-form {
+    padding-top: 3;
+    padding-bottom: 0;
 }
 
 .modal-body {
     text-align: justify;
 }
 
+
+/* CurrentDate
+------------------------- */
+.current-date{
+    width: 150;
+}
 
 /* RESPONSIVE CSS
 -------------------------------------------------- */
